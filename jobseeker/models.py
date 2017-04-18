@@ -7,7 +7,10 @@ class Jobseeker(models.Model):
     first_name = models.CharField(max_length=100, name="FirstName")
     last_name = models.CharField(max_length=100, name="LastName")
     email_address = models.CharField(max_length=200, name="Email")
-    dob = models.DateField('Date of Birth')
+    dob = models.DateField('DOB')
+
+    def __str__(self):
+        return self.FirstName + " " + self.LastName # todo: figure out why the ide hates this
 
 class Profile(models.Model):
     """ Jobseekers public facing profile """
@@ -17,5 +20,8 @@ class Profile(models.Model):
     preferred_industry = models.CharField(max_length=200, name="PreferredIndustry")
     skills = models.CharField(max_length=50, name="Skills")
 
-    
+    def __str__(self):
+        return "Profile for : " + self.jobseeker.FirstName + " " + self.jobseeker.LastName # and this
+
+
 
