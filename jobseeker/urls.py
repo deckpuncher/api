@@ -1,3 +1,4 @@
+"""Routeconfig for jobseeker api"""
 from django.conf.urls import url
 
 from . import views
