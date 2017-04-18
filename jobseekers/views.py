@@ -8,8 +8,9 @@ from .models import Jobseeker
 
 # Create your views here.
 def index(request):
-    """ default route view """
-    return HttpResponse("Hello, world. This is jobseeker country")
+    """ default route, list all records """
+    jsk_list = list(Jobseeker.objects.all())
+    return HttpResponse(json.dumps(jsk_list, default=datetime_handler))
 
 def detail(request, jskId):
     """ basic jobseeker objects """
@@ -17,11 +18,9 @@ def detail(request, jskId):
     jobseeker = model_to_dict(jskModel)
     return HttpResponse(json.dumps(jobseeker, default=datetime_handler))
 
-def datetime_handler(val):
-    if isinstance(val, datetime.datetime):
+def datetime_handler(self, val):
+    if hasattr(val, 'isoformat'):
         return val.isoformat()
-    if isinstance(val, datetime.date):
-        return val.isoformat()
-    raise TypeError("Unknown type")
-
-
+    else:
+        return json.JSONEncoder.default(self, val)
+        
